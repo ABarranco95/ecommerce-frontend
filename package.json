@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "proxy": "http://localhost:8000/",
+  "proxy": "https://backend-ale-creations.herokuapp.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
