@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import FormContainer from "../components/FormContainer";
-import { getUserDetails } from "../actions/userActions";
+import { getUserDetails, updateUser } from "../actions/userActions";
+import { USER_UPDATE_RESET } from "../constants/userConstants";
 
 const UserEditScreen = ({ match, history }) => {
   const userId = match.params.id;
@@ -19,18 +20,31 @@ const UserEditScreen = ({ match, history }) => {
   const userDetails = useSelector((state) => state.userDetails);
   const { error, loading, user } = userDetails;
 
+  const userUpdate = useSelector((state) => state.userUpdate);
+  const {
+    error: errorUpdate,
+    loading: loadingUpdate,
+    success: successUpdate,
+  } = userUpdate;
+
   useEffect(() => {
-      if(!user.name || user._id !== Number(userId)){
-          dispatch(getUserDetails(userId))
+    if (successUpdate) {
+      dispatch({ type: USER_UPDATE_RESET });
+      history.push("/admin/userlist");
+    } else {
+      if (!user.name || user._id !== Number(userId)) {
+        dispatch(getUserDetails(userId));
       } else {
-          setName(user.name)
-          setEmail(user.email)
-          setIsAdmin(user.isAdmin)
+        setName(user.name);
+        setEmail(user.email);
+        setIsAdmin(user.isAdmin);
       }
-  }, [dispatch, userId, user]);
+    }
+  }, [userId, user, ]);
 
   const submitHandler = (e) => {
     e.preventDefault();
+    dispatch(updateUser({ _id: user._id, name, email, isAdmin }))
   };
 
   return (
@@ -38,6 +52,9 @@ const UserEditScreen = ({ match, history }) => {
       <Link to="/admin/userlist">Go Back</Link>
       <FormContainer>
         <h1>Edit User</h1>
+
+        {loadingUpdate && <Loader />}
+        {errorUpdate && <Message variant="danger">{error}</Message>}
 
         {loading ? (
           <Loader />
