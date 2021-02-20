@@ -43,7 +43,7 @@ function OrderScreen({ match, history }) {
     const script = document.createElement("script");
     script.type = "text/javascript";
     script.src =
-      "https://www.paypal.com/sdk/js?client-id=AeDXja18CkwFUkL-HQPySbzZsiTrN52cG13mf9Yz7KiV2vNnGfTDP0wDEN9sGlhZHrbb_USawcJzVDgn";
+      "https://www.paypal.com/sdk/js?client-id=AYwrS2m_5uKEHMER9wnYoDGd90jET2_nc_3HtcWfuK0Jzk6tozxKGstTjJYUy-Q2c6YQzMAaxFLKJlzW";
     script.async = true;
     script.onload = () => {
       setSdkReady(true);
